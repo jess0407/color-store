@@ -33,7 +33,7 @@
     <nav class="filter flex flex-wrap my-4 w-11/12 mx-auto">
       <button
         v-for="f in filters"
-        @click="filter=f"
+        @click="filter=f; if(searchText) searchText = ''"
         :key="f"
         :class="`focus:outline-none focus:border-2 px-3 py-1 m-2 font-semibold text-sm rounded-full text-black uppercase`"
         :style="{background: getBgColor(f), color: invertColor(getBgColor(f), true)}"
