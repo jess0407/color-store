@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <HelloWorld/>
+    <ColorStore/>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import ColorStore from "./components/ColorStore";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    ColorStore
   }
 };
 </script>
