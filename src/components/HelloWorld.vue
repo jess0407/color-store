@@ -24,7 +24,7 @@
     </div>
     <input
       ref="search"
-      @input="filter = null"
+      @input="filter = null; searchText = lower(searchText)"
       placeholder="Type '/' to focus. Enter color code or name. Try 'apple'. "
       class="px-3 border-2 border-gray-600 h-12 w-4/5 mx-auto block rounded-lg focus:outline-none focus:border-blue-800"
       type="text"
