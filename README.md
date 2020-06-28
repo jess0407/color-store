@@ -1,2 +1,4 @@
 # color-store
-Created with CodeSandbox
+
+
+Where you can play with colors
