@@ -1,21 +1,36 @@
 <template>
   <div>
     <h1 class="text-2xl text-center mt-8">Color Store</h1>
-    <div
-      class="meta text-gray-700 text-center text-xs font-semibold mb-6 mt-1"
-    >Results: {{filered.length}} {{filter}} colors found</div>
+    <div class="meta text-gray-700 text-center text-xs font-semibold h-16 mt-1">
+      <p class="mb-2">
+        Results: {{pluralize(filered.length)}}
+        found
+      </p>
+      <p v-if="searchText">
+        Search:
+        <span
+          @click="searchText=''"
+          class="px-2 py-1 mx-px rounded-full cursor-pointer bg-blue-800 text-white"
+        >{{searchText}} x</span>
+      </p>
+      <p v-if="filter">
+        Filter:
+        <span
+          @click="filter=null"
+          class="px-2 py-px mx-px rounded-full cursor-pointer"
+          :style="{background: getBgColor(filter), color: invertColor(getBgColor(filter), true)}"
+        >{{filter}} x</span>
+      </p>
+    </div>
     <input
       ref="search"
+      @input="filter = null"
       placeholder="Type '/' to focus. Enter color code or name. Try 'apple'. "
       class="px-3 border-2 border-gray-600 h-12 w-4/5 mx-auto block rounded-lg focus:outline-none focus:border-blue-800"
       type="text"
       v-model="searchText"
     >
     <nav class="filter flex flex-wrap my-4 w-11/12 mx-auto">
-      <button
-        @click="filter=null"
-        class="focus:outline-none focus:border-2 bg-gray-600 px-3 py-1 m-2 font-semibold text-sm rounded-full text-white uppercase"
-      >All</button>
       <button
         v-for="f in filters"
         @click="filter=f"
@@ -24,20 +39,8 @@
         :style="{background: getBgColor(f), color: invertColor(getBgColor(f), true)}"
       >{{f}}</button>
     </nav>
-
-    <!-- <transition-group
-      class="grid grid-cols-2 sm:grid-3 md:grid-cols-4 lg:grid-cols-8"
-      name="list"
-      appear
-      tag="div"
-    >    </transition-group>-->
     <div class="grid grid-cols-2 sm:grid-3 md:grid-cols-4 lg:grid-cols-8">
-      <Swatch
-        class="list-item"
-        v-for="color in filered"
-        :key="color[0]+Math.random()"
-        :color="color"
-      ></Swatch>
+      <Swatch class="list-item" v-for="color in filered" :key="color[0]" :color="color"></Swatch>
     </div>
   </div>
 </template>
@@ -68,11 +71,11 @@ export default {
   },
   mounted() {
     const input = this.$refs.search;
-    document.addEventListener("keyup", e => {
-      if (e.keyCode === 191) {
-        input.focus();
-      }
-    });
+    if (!input) return;
+    document.addEventListener("keyup", e => this.focus(e));
+  },
+  destroyed() {
+    document.removeEventListener("keyup", this.focus);
   },
   computed: {
     filered() {
@@ -116,6 +119,21 @@ export default {
     }
   },
   methods: {
+    pluralize(count) {
+      if (count === 0) {
+        return "no colors";
+      } else if (count === 1) {
+        return "1 color";
+      } else {
+        return count + " colors";
+      }
+    },
+    focus(e) {
+      if (e.keyCode === 191) {
+        const input = this.$refs.search;
+        input && input.focus();
+      }
+    },
     lower(s) {
       return s.toLowerCase();
     },
