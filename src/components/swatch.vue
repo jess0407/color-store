@@ -5,7 +5,7 @@
     :style="{background: color[1], color: invertColor(color[1], true)}"
     :class="{'cursor-copy' : !copied, 'cursor-auto':!copied}"
   >
-    <div class="info">
+    <div class="info transition duration-700 ease-in">
       <p class="text-xs mt-2">{{color[2]}}</p>
       <p class="text-sm leading-tight">{{color[0]}}</p>
       <input
@@ -55,9 +55,9 @@ export default {
   cursor: copy;
 }
 .info {
-  display: none;
+  opacity: 0;
 }
 .swatch:hover .info {
-  display: block;
+  opacity: 1;
 }
 </style>

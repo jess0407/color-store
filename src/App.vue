@@ -14,3 +14,20 @@ export default {
   }
 };
 </script>
+
+<style>
+.list-item {
+  transition: all 0.6s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-leave-active {
+  position: absolute;
+}
+.list-move {
+  transition: all 0.3;
+}
+</style>

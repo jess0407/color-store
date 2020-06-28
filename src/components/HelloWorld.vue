@@ -1,6 +1,17 @@
 <template>
   <div>
-    <nav class="filter flex flex-wrap">
+    <h1 class="text-2xl text-center mt-8">Color Store</h1>
+    <div
+      class="meta text-gray-700 text-center text-xs font-semibold mb-6 mt-1"
+    >Results: {{filered.length}} {{filter}} colors found</div>
+    <input
+      ref="search"
+      placeholder="Type '/' to focus. Enter color code or name. Try 'apple'. "
+      class="px-3 border-2 border-gray-600 h-12 w-4/5 mx-auto block rounded-lg focus:outline-none focus:border-blue-800"
+      type="text"
+      v-model="searchText"
+    >
+    <nav class="filter flex flex-wrap my-4 w-11/12 mx-auto">
       <button
         @click="filter=null"
         class="focus:outline-none focus:border-2 bg-gray-600 px-3 py-1 m-2 font-semibold text-sm rounded-full text-white uppercase"
@@ -13,9 +24,20 @@
         :style="{background: getBgColor(f), color: invertColor(getBgColor(f), true)}"
       >{{f}}</button>
     </nav>
-    <div class="meta m-6 font-bold">Including {{filered.length}} {{filter}} colors</div>
-    <div v-if="colors" class="grid grid-cols-2 sm:grid-3 md:grid-cols-4 lg:grid-cols-8">
-      <Swatch v-for="color in filered" :key="color[0]+Math.random()" :color="color"></Swatch>
+
+    <!-- <transition-group
+      class="grid grid-cols-2 sm:grid-3 md:grid-cols-4 lg:grid-cols-8"
+      name="list"
+      appear
+      tag="div"
+    >    </transition-group>-->
+    <div class="grid grid-cols-2 sm:grid-3 md:grid-cols-4 lg:grid-cols-8">
+      <Swatch
+        class="list-item"
+        v-for="color in filered"
+        :key="color[0]+Math.random()"
+        :color="color"
+      ></Swatch>
     </div>
   </div>
 </template>
@@ -44,8 +66,24 @@ export default {
   components: {
     Swatch
   },
+  mounted() {
+    const input = this.$refs.search;
+    document.addEventListener("keyup", e => {
+      if (e.keyCode === 191) {
+        input.focus();
+      }
+    });
+  },
   computed: {
     filered() {
+      if (this.searchText.length) {
+        return colors.filter(c => {
+          return (
+            this.lower(c[0]).includes(this.searchText) ||
+            this.lower(c[2]).includes(this.searchText)
+          );
+        });
+      }
       if (!this.filter) return colors;
       switch (this.filter) {
         case "neutral":
@@ -78,12 +116,16 @@ export default {
     }
   },
   methods: {
+    lower(s) {
+      return s.toLowerCase();
+    },
     getBgColor(filter) {
       return colors.find(c => c[2] === this.colorMap[filter][0])[1];
     }
   },
   data() {
     return {
+      searchText: "",
       colors: colors,
       filter: null,
       filters: [
