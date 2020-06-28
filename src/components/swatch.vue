@@ -1,20 +1,22 @@
 <template>
   <div
     @click="copy"
-    class="h-48 flex flex-col justify-center text-center font-semibold p-2"
+    class="swatch h-48 flex flex-col justify-center text-center font-semibold p-2"
     :style="{background: color[1], color: invertColor(color[1], true)}"
     :class="{'cursor-copy' : !copied, 'cursor-auto':!copied}"
   >
-    <p class="text-xs mt-2">{{color[2]}}</p>
-    <p class="text-sm leading-tight">{{color[0]}}</p>
-    <input
-      readonly
-      ref="color"
-      class="mt-2 text-center text-sm uppercase focus:outline-none"
-      :class="{'cursor-copy' : !copied, 'cursor-auto':!copied}"
-      :style="{background: color[1]}"
-      :value="text"
-    >
+    <div class="info">
+      <p class="text-xs mt-2">{{color[2]}}</p>
+      <p class="text-sm leading-tight">{{color[0]}}</p>
+      <input
+        readonly
+        ref="color"
+        class="mt-2 text-center text-sm uppercase focus:outline-none"
+        :class="{'cursor-copy' : !copied, 'cursor-auto':!copied}"
+        :style="{background: color[1]}"
+        :value="text"
+      >
+    </div>
   </div>
 </template>
 
@@ -51,5 +53,11 @@ export default {
 <style scoped>
 .cursor-copy {
   cursor: copy;
+}
+.info {
+  display: none;
+}
+.swatch:hover .info {
+  display: block;
 }
 </style>

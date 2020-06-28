@@ -40,7 +40,7 @@ import Swatch from "./swatch";
 import { colorutil } from "../mixin";
 export default {
   name: "HelloWorld",
-    mixins: [colorutil],
+  mixins: [colorutil],
   components: {
     Swatch
   },
