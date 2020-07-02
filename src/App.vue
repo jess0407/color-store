@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <ColorStore/>
+    <nav class="flex justify-center p-3">
+      <router-link to="/font" class="px-2 text-blue-700">Font Store</router-link>|
+      <router-link to="/" class="px-2 text-blue-700">Color Srore</router-link>
+    </nav>
+
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import ColorStore from "./components/ColorStore";
-
 export default {
-  name: "App",
-  components: {
-    ColorStore
-  }
+  name: "App"
 };
 </script>
 
